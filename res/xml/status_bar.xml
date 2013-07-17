@@ -72,6 +72,7 @@
             android:summaryOn="Jellybean Mode"
             android:summaryOff="ICS Mode"
             android:defaultValue="true"
+            android:enabled="false"
             />
         <CheckBoxPreference
             android:key="show_flip_panel"
@@ -79,6 +80,7 @@
             android:summaryOn="Jellybean Mode"
             android:summaryOff="ICS Mode"
             android:defaultValue="true"
+            android:enabled="false"
             />
     </PreferenceCategory>
 
