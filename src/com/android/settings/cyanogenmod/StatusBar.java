@@ -41,12 +41,17 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
     private static final String STATUS_BAR_NOTIF_COUNT = "status_bar_notif_count";
     private static final String STATUS_BAR_CATEGORY_GENERAL = "status_bar_general";
 
+    private static final String SHOW_SETTINGS_PANEL = "show_settings_panel";
+    private static final String SHOW_FLIP_PANEL = "show_flip_panel";
+
     private ListPreference mStatusBarAmPm;
     private ListPreference mStatusBarBattery;
     private ListPreference mStatusBarCmSignal;
     private CheckBoxPreference mStatusBarClock;
     private CheckBoxPreference mStatusBarBrightnessControl;
     private CheckBoxPreference mStatusBarNotifCount;
+    private CheckBoxPreference mStatusBarSettings;
+    private CheckBoxPreference mStatusBarFlip;
     private PreferenceCategory mPrefCategoryGeneral;
 
     @Override
@@ -59,6 +64,8 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
 
         mStatusBarClock = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_CLOCK);
         mStatusBarBrightnessControl = (CheckBoxPreference) prefSet.findPreference(STATUS_BAR_BRIGHTNESS_CONTROL);
+        mStatusBarSettings = (CheckBoxPreference) prefSet.findPreference(SHOW_SETTINGS_PANEL);
+        mStatusBarFlip = (CheckBoxPreference) prefSet.findPreference(SHOW_FLIP_PANEL);
         mStatusBarAmPm = (ListPreference) prefSet.findPreference(STATUS_BAR_AM_PM);
         mStatusBarBattery = (ListPreference) prefSet.findPreference(STATUS_BAR_BATTERY);
         mStatusBarCmSignal = (ListPreference) prefSet.findPreference(STATUS_BAR_SIGNAL);
@@ -67,6 +74,10 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
                 Settings.System.STATUS_BAR_CLOCK, 1) == 1));
         mStatusBarBrightnessControl.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
                 Settings.System.STATUS_BAR_BRIGHTNESS_CONTROL, 0) == 1));
+        mStatusBarSettings.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(), 
+        		SHOW_SETTINGS_PANEL, 1) == 1));
+        mStatusBarFlip.setChecked((Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(), 
+        		SHOW_FLIP_PANEL, 1) == 1));
 
         try {
             if (Settings.System.getInt(getActivity().getApplicationContext().getContentResolver(),
@@ -164,6 +175,16 @@ public class StatusBar extends SettingsPreferenceFragment implements OnPreferenc
             Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
                     Settings.System.STATUS_BAR_NOTIF_COUNT, value ? 1 : 0);
             return true;
+        } else if (preference == mStatusBarSettings) {
+        	value = mStatusBarSettings.isChecked();
+        	Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(),
+        			SHOW_SETTINGS_PANEL, value ? 1 : 0);
+        	return true;
+        } else if (preference == mStatusBarFlip) {
+        	value = mStatusBarFlip.isChecked();
+        	Settings.System.putInt(getActivity().getApplicationContext().getContentResolver(), 
+        			SHOW_FLIP_PANEL, value ? 1 : 0);
+        	return true;
         }
         return false;
     }
